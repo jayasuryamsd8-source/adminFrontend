@@ -1,0 +1,252 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   DESIGN TOKENS (LIGHT + DARK)
+   ========================================================= */
+@layer base {
+  :root {
+    --background: 248 250 252;
+    --surface: 255 255 255;
+    --surface-muted: 241 245 249;
+
+    --text-primary: 15 23 42;
+    --text-secondary: 71 85 105;
+    --text-muted: 100 116 139;
+
+    --border: 226 232 240;
+
+    --brand: 6 182 212;
+    --brand-hover: 8 145 178;
+    --brand-accent: 251 146 60;
+
+    --danger: 239 68 68;
+    --success: 34 197 94;
+    --warning: 234 179 8;
+
+    --focus: 6 182 212;
+
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --duration-fast: 150ms;
+    --duration-base: 250ms;
+  }
+
+  .dark {
+    --background: 2 6 23;
+    --surface: 15 23 42;
+    --surface-muted: 30 41 59;
+
+    --text-primary: 226 232 240;
+    --text-secondary: 203 213 225;
+    --text-muted: 148 163 184;
+
+    --border: 30 41 59;
+    --brand: 34 211 238;
+    --brand-hover: 6 182 212;
+    --focus: 34 211 238;
+  }
+}
+
+/* =========================================================
+   GLOBAL TRANSITION
+   ========================================================= */
+html,
+body,
+* {
+  transition:
+    background-color var(--duration-base) ease,
+    color var(--duration-base) ease,
+    border-color var(--duration-base) ease,
+    box-shadow var(--duration-fast) ease,
+    transform var(--duration-fast) ease;
+}
+
+/* =========================================================
+   BASE STYLES
+   ========================================================= */
+@layer base {
+  body {
+    @apply antialiased;
+    background-color: rgb(var(--background));
+    color: rgb(var(--text-primary));
+  }
+
+  p { color: rgb(var(--text-secondary)); }
+  small { color: rgb(var(--text-muted)); }
+
+  input,
+  textarea,
+  select {
+    background-color: rgb(var(--surface));
+    color: rgb(var(--text-primary));
+    border: 1px solid rgb(var(--border));
+    @apply w-full rounded-md px-3 py-2 text-sm
+           focus:outline-none
+           focus-visible:ring-2
+           focus-visible:ring-offset-1;
+  }
+
+  :disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+/* =========================================================
+   COMPONENTS
+   ========================================================= */
+@layer components {
+  .card {
+    background-color: rgb(var(--surface));
+    border: 1px solid rgb(var(--border));
+    @apply rounded-xl shadow-sm;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2
+           rounded-md px-4 py-2 text-sm font-medium
+           transition-all duration-150
+           focus:outline-none focus-visible:ring-2
+           active:translate-y-px;
+  }
+
+  .btn-primary {
+    @apply btn;
+    background-color: rgb(var(--brand));
+    color: rgb(2 6 23);
+  }
+
+  .btn-secondary {
+    @apply btn;
+    background-color: rgb(var(--surface));
+    border: 1px solid rgb(var(--border));
+  }
+
+  .btn-danger {
+    @apply btn;
+    background-color: rgb(var(--danger));
+    color: white;
+  }
+
+  .status-badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-medium;
+  }
+}
+
+/* =========================================================
+   PROFILE PHOTO
+   ========================================================= */
+.profile-photo {
+  width: 112px;
+  height: 112px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(var(--border));
+  background: white;
+}
+
+/* =========================================================
+   PRINT MODE (FINAL FIX)
+   ========================================================= */
+@media print {
+
+  /* ❌ REMOVE SCROLLBARS COMPLETELY */
+  * {
+    overflow: visible !important;
+  }
+
+  /* ❌ KILL FIXED HEIGHTS THAT CAUSE SCROLL */
+  html,
+  body {
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  .h-screen,
+  .min-h-screen {
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  main {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* ❌ HIDE UI ELEMENTS */
+  aside,
+  nav,
+  button,
+  .sidebar,
+  .print-hidden {
+    display: none !important;
+  }
+
+  /* ✅ IMAGE SAFETY */
+  img {
+    display: block !important;
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+
+@media print {
+
+  /* HEADER ROW ALIGNMENT */
+  .candidate-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    min-height: 90px !important;
+  }
+
+  /* PROFILE PHOTO – REDUCED & FIXED */
+  .profile-photo {
+    width: 72px !important;
+    height: 90px !important;   /* passport-style ratio */
+    object-fit: cover !important;
+    border-radius: 6px !important;
+  }
+
+  /* NAME BLOCK SIZE CONTROL */
+  .candidate-name {
+    font-size: 18px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 2px !important;
+  }
+
+  .candidate-subtitle {
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+  }
+
+  .candidate-status {
+    font-size: 12px !important;
+    margin-top: 2px !important;
+  }
+}
+
+  /* ❌ FORCE SCROLLBAR INVISIBLE (BROWSER LEVEL) */
+  ::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+  }
+
+  /* ✅ PRINT COLORS */
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* ✅ WATERMARK */
+  body::before {
+    content: "SARAVANA";
+    position: fixed;
+    top: 40%;
+    left: 20%;
+    font-size: 6rem;
+    color: rgba(0, 0, 0, 0.08);
+    transform: rotate(-30deg);
+    pointer-events: none;
+  }
+}
