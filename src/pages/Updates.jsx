@@ -127,15 +127,22 @@ export default function Updates() {
 function CandidateRow({ c, updateStatus }) {
   const status = c.status;
 
+  const getFullUrl = (path) => {
+    if (!path) return null;
+    return path.startsWith("http") ? path : `${API_BASE_URL}/${path}`;
+  };
+
+  const photoUrl = getFullUrl(c.documents?.photo);
+
   return (
     <div className="flex items-center justify-between p-4">
 
       {/* LEFT: PROFILE (PHOTO FIXED) */}
       <div className="flex items-center gap-4">
 
-        {c.documents?.photo ? (
+        {photoUrl ? (
           <img
-            src={`${API_BASE_URL}/${c.documents.photo}`}
+            src={photoUrl}
             alt={c.fullName}
             className="w-10 h-10 rounded-full object-cover border"
           />
